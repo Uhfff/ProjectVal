@@ -9,29 +9,22 @@
 :root{--coral:#7D2826;--candle:#EFE9D7;--leaf:#898861;--jun:#343723;--dark:#262817}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-@media(min-width:900px) and (min-height:640px){html{scroll-snap-type:y mandatory}}
-@media(max-width:899px){html{scroll-snap-type:y proximity}}
 body{background:var(--candle);color:var(--jun);font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;line-height:1.45;overflow-x:hidden}
 .lab{font-family:Montserrat,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.3em;text-transform:uppercase}
 h1,h2{font-family:'Playfair Display',Georgia,serif;line-height:1.08}
-section{position:relative;padding:110px 7vw;overflow:hidden;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center}
-footer{scroll-snap-align:end}
+section{position:relative;padding:110px 7vw;overflow:hidden;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center}
 .wrap{position:relative;z-index:2;max-width:640px}
 img{display:block}
 .cut{position:absolute;z-index:1;pointer-events:none}
 .torn{clip-path:polygon(0 3%,6% 0,14% 2%,23% 0,31% 3%,40% 0,49% 2%,58% 0,67% 3%,76% 0,85% 2%,93% 0,100% 3%,100% 100%,0 100%)}
-.fx{opacity:0;translate:0 38px;transition:opacity .9s cubic-bezier(.2,.7,.2,1),translate .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*.12s + .15s)}
-.on .fx{opacity:1;translate:0 0}
-.cut{opacity:0;scale:.86;translate:0 70px;transition:opacity 1.1s ease,scale 1.3s cubic-bezier(.2,.7,.2,1),translate 1.3s cubic-bezier(.2,.7,.2,1);transition-delay:.2s}
-.on .cut{opacity:1;scale:1;translate:0 0}
-.on .cut:nth-of-type(2){transition-delay:.45s}
-h1.fx,h2.fx{translate:0 60px}
-#bar{position:fixed;left:0;top:0;height:4px;background:var(--coral);width:0;z-index:30;mix-blend-mode:normal}
-#dots{position:fixed;right:18px;top:50%;translate:0 -50%;z-index:25;display:flex;flex-direction:column;gap:12px}
-#dots a{width:10px;height:10px;border-radius:50%;border:2px solid var(--leaf);background:transparent;transition:.3s;display:block}
-#dots a.act{background:var(--coral);border-color:var(--coral);scale:1.4}
-@media(max-width:800px){#dots{display:none}}
-@media(prefers-reduced-motion:reduce){.fx,.cut{opacity:1!important;translate:none!important;scale:none!important;transition:none!important}html{scroll-snap-type:none}}
+.w{display:inline-block;white-space:nowrap}
+.c,.ww{display:inline-block}
+#bar{position:fixed;left:0;top:0;height:4px;background:var(--coral);width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:30}
+#waves{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+#waves path{will-change:transform}
+.blob{position:absolute;z-index:0;pointer-events:none;border-radius:58% 42% 61% 39%/45% 55% 45% 55%;will-change:transform}
+.ln{height:2px;background:var(--leaf);transform-origin:0 50%}
+
 p+p{margin-top:1em}
 nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:14px 7vw;mix-blend-mode:difference;color:#EFE9D7}
 nav a{color:inherit;text-decoration:none}
@@ -85,7 +78,8 @@ blockquote{border-left:4px solid var(--coral);padding-left:22px;margin:30px 0;fo
 #src{background:var(--candle)}
 #src h2{font-size:clamp(30px,4vw,52px);margin:14px 0 30px}
 #src ol{list-style:none;padding:0;max-width:760px;counter-reset:s}
-#src li{counter-increment:s;padding:16px 0 16px 58px;border-top:2px solid var(--leaf);position:relative;font-size:22px}
+#src li{counter-increment:s;padding:16px 0 16px 58px;position:relative;font-size:22px}
+#src li .ln{position:absolute;left:0;right:0;top:0}
 #src li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:14px;font-family:'Playfair Display',serif;font-size:32px;color:var(--coral)}
 #src li span{display:block;font-size:18px;color:#5B5D3F}
 footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display:flex;flex-wrap:wrap;gap:40px;align-items:center;justify-content:space-between}
@@ -117,10 +111,16 @@ footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display
  .card:nth-child(2){transform:rotate(1deg)}
 }
 </style></head><body>
-<div id="bar"></div><div id="dots"></div>
+<div id="bar"></div>
 <nav class="lab"><a href="#hero">Философия · проект</a><a href="#src">Источники</a></nav>
 
 <section id="hero">
+ <svg id="waves" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M-100 330C120 230 330 420 600 330S1060 210 1540 340V1000H-100Z" fill="#8c302d" opacity=".55"/>
+  <path d="M-100 470C180 350 380 560 680 450S1120 360 1540 480V1000H-100Z" fill="#6b2220" opacity=".8"/>
+  <path d="M-100 610C150 520 420 700 740 600S1180 520 1540 620V1000H-100Z" fill="#4f1a19"/>
+  <path d="M-100 760C200 690 460 830 800 750S1200 700 1540 770V1000H-100Z" fill="#262817"/>
+ </svg>
  <img class="cut head" src="img/head.webp" alt="Античная голова">
  <img class="cut sun" src="img/sun.webp" alt="Золотое солнце с лицом">
  <div>
@@ -143,6 +143,7 @@ footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display
 </section>
 
 <section id="c2">
+ <div class="blob" id="b1" style="left:-8vw;top:55%;width:26vw;height:12vw;background:var(--coral);opacity:.85"></div>
  <img class="cut youth" src="img/youth.webp" alt="Юноша эпохи Возрождения">
  <img class="cut pearl" src="img/pearl.webp" alt="Жемчужина">
  <div class="wrap rv">
@@ -156,6 +157,7 @@ footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display
 </section>
 
 <section id="c3">
+ <div class="blob" id="b2" style="right:-6vw;top:12%;width:20vw;height:9vw;background:var(--leaf);opacity:.7"></div>
  <img class="cut col" src="img/columns.webp" alt="Колонны">
  <img class="cut hands" src="img/hands.webp" alt="Руки">
  <div class="wrap rv">
@@ -197,10 +199,10 @@ footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display
  <p class="lab" style="color:var(--coral)">Источники</p>
  <h2>Что я читала и использовала</h2>
  <ol>
-  <li>Пико делла Мирандола. Речь о достоинстве человека. 1486<span>Исходная идея гуманизма</span></li>
-  <li>Бостром Н. Искусственный интеллект. Этапы. Угрозы. Стратегии. 2014<span>Что будет, если машины станут умнее людей</span></li>
-  <li>Харари Ю. Homo Deus. Краткая история будущего. 2015<span>Нужен ли человек в мире алгоритмов</span></li>
-  <li>Хайдеггер М. Вопрос о технике. 1954<span>Техника как способ видеть мир</span></li>
+  <li><i class="ln"></i>Пико делла Мирандола. Речь о достоинстве человека. 1486<span>Исходная идея гуманизма</span></li>
+  <li><i class="ln"></i>Бостром Н. Искусственный интеллект. Этапы. Угрозы. Стратегии. 2014<span>Что будет, если машины станут умнее людей</span></li>
+  <li><i class="ln"></i>Харари Ю. Homo Deus. Краткая история будущего. 2015<span>Нужен ли человек в мире алгоритмов</span></li>
+  <li><i class="ln"></i>Хайдеггер М. Вопрос о технике. 1954<span>Техника как способ видеть мир</span></li>
  </ol>
 </section>
 
@@ -208,22 +210,82 @@ footer{background:var(--coral);color:var(--candle);padding:70px 7vw 60px;display
  <div><p class="lab">Философия · итоговый проект</p><p style="font-size:22px;margin-top:8px">Дегтянникова Валерия</p></div>
  <div class="letters"><img src="img/l.webp" alt="Л"><img src="img/o.webp" alt="О"><img src="img/n.webp" alt="Н"><img src="img/g.webp" alt="Г"><img src="img/r.webp" alt="Р"><img src="img/i.webp" alt="И"><img src="img/d.webp" alt="Д"></div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-var secs=[].slice.call(document.querySelectorAll('section'));
-secs.forEach(function(sec){
-  var t=sec.querySelectorAll('.wrap>*,section>.lab,section>h2,.cards .card,#src li,#hero .lab,#hero h1,#hero .by,.fin');
-  var seen=[];t.forEach(function(el){if(seen.indexOf(el)<0){seen.push(el);el.classList.add('fx');el.style.setProperty('--i',seen.length-1)}});
+(function(){
+if(!window.gsap||!window.ScrollTrigger||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+gsap.registerPlugin(ScrollTrigger);
+var mobile=innerWidth<800;
+/* делим текст на слова и буквы, теги вроде <i> сохраняются */
+function split(el,chars){
+  var out=[];
+  (function walk(n){
+    [].slice.call(n.childNodes).forEach(function(c){
+      if(c.nodeType===3){
+        var f=document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(function(t){
+          if(!t)return;
+          if(/^\s+$/.test(t)){f.appendChild(document.createTextNode(t));return}
+          var w=document.createElement('span');w.className=chars?'w':'ww';
+          if(chars){t.split('').forEach(function(ch){var s=document.createElement('span');s.className='c';s.textContent=ch;w.appendChild(s);out.push(s)})}
+          else{w.textContent=t;out.push(w)}
+          f.appendChild(w)});
+        c.parentNode.replaceChild(f,c);
+      }else if(c.nodeType===1)walk(c)
+    })})(el);
+  return out;
+}
+/* заголовки: буквы загораются по мере прокрутки */
+document.querySelectorAll('h1,h2').forEach(function(h){
+  var parts=split(h,true);
+  gsap.fromTo(parts,{opacity:.16},{opacity:1,ease:'none',stagger:.6,scrollTrigger:{trigger:h,start:h.closest('#hero')?'top 90%':'top 88%',end:h.closest('#hero')?'top 55%':'top 50%',scrub:.6}});
 });
-var dots=document.getElementById('dots');
-secs.forEach(function(sec,k){var a=document.createElement('a');a.href='#'+sec.id;a.title=sec.id;dots.appendChild(a)});
-var io=new IntersectionObserver(function(es){es.forEach(function(e){
-  if(e.isIntersecting){e.target.classList.add('on');var k=secs.indexOf(e.target);[].forEach.call(dots.children,function(d,n){d.classList.toggle('act',n===k)})}
-})},{threshold:.4});
-secs.forEach(function(s){io.observe(s)});
-document.getElementById('hero').classList.add('on');
-var bar=document.getElementById('bar');
-addEventListener('scroll',function(){var h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
- /* лёгкий параллакс картинок */
- secs.forEach(function(sec){var r=sec.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;var p=(r.top/innerHeight);sec.querySelectorAll('.cut').forEach(function(c,n){c.style.marginTop=(p*(n%2?-26:26))+'px'})})
-},{passive:true});
+/* абзацы: слова из серого в цвет текста */
+document.querySelectorAll('.wrap p,.fin').forEach(function(p){
+  if(p.querySelector('.tag'))return;
+  var parts=split(p,false);
+  gsap.fromTo(parts,{opacity:.18},{opacity:1,ease:'none',stagger:.5,scrollTrigger:{trigger:p,start:'top 92%',end:'bottom 62%',scrub:.5}});
+});
+document.querySelectorAll('.lab').forEach(function(l){
+  gsap.from(l,{opacity:0,x:-24,duration:.8,scrollTrigger:{trigger:l,start:'top 92%'}});
+});
+/* герой: волны, цвет заголовка, расхождение картинок */
+var hero='#hero';
+gsap.utils.toArray('#waves path').forEach(function(p,i){
+  gsap.to(p,{xPercent:i%2?-4:4,yPercent:i%2?-2:2,duration:5+i,ease:'sine.inOut',repeat:-1,yoyo:true});
+  gsap.to(p,{y:-120*(i+1),ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
+});
+gsap.to('#hero h1',{color:'#898861',y:-80,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom 30%',scrub:true}});
+gsap.from('#hero .head',{yPercent:25,rotate:-6,opacity:0,duration:1.4,ease:'power3.out'});
+gsap.from('#hero .sun',{scale:.3,rotate:-80,opacity:0,duration:1.6,delay:.4,ease:'back.out(1.4)'});
+gsap.to('#hero .head',{yPercent:-12,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
+gsap.to('#hero .sun',{rotate:60,yPercent:-60,ease:'none',scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
+/* вырезки: открываются маской и плывут с разной скоростью */
+document.querySelectorAll('section:not(#hero) .cut').forEach(function(c,i){
+  var sec=c.closest('section');
+  gsap.fromTo(c,{clipPath:'inset(100% 0% 0% 0%)',scale:1.18},{clipPath:'inset(0% 0% 0% 0%)',scale:1,ease:'none',scrollTrigger:{trigger:sec,start:'top 75%',end:'top 15%',scrub:.8}});
+  if(!mobile)gsap.to(c,{yPercent:i%2?-14:14,ease:'none',scrollTrigger:{trigger:sec,start:'top bottom',end:'bottom top',scrub:true}});
+});
+/* пятна, как на сайте-образце: плывут и вращаются */
+gsap.utils.toArray('.blob').forEach(function(b,i){
+  gsap.fromTo(b,{x:i?-120:120,rotate:-25},{x:i?240:-260,rotate:35,ease:'none',scrollTrigger:{trigger:b.parentNode,start:'top bottom',end:'bottom top',scrub:1}});
+});
+/* карточки */
+gsap.from('.card',{y:140,rotate:function(i){return [-7,6,-5][i]},opacity:0,duration:1,stagger:.18,ease:'power3.out',scrollTrigger:{trigger:'.cards',start:'top 82%'}});
+/* источники: линии прорисовываются */
+gsap.utils.toArray('#src li').forEach(function(li){
+  gsap.from(li.querySelector('.ln'),{scaleX:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:li,start:'top 92%'}});
+  gsap.from(li,{opacity:0,y:30,duration:.9,scrollTrigger:{trigger:li,start:'top 94%'}});
+});
+/* буквы в футере падают */
+gsap.from('.letters img',{y:-120,rotate:function(i){return i%2?40:-40},opacity:0,duration:1,stagger:.09,ease:'bounce.out',scrollTrigger:{trigger:'footer',start:'top 85%'}});
+/* линия-прогресс */
+gsap.to('#bar',{scaleX:1,ease:'none',scrollTrigger:{scrub:.2,start:0,end:'max'}});
+/* маленькое смещение при наведении на карточки */
+document.querySelectorAll('.card').forEach(function(c){
+  c.addEventListener('mouseenter',function(){gsap.to(c,{y:-10,rotate:0,duration:.4})});
+  c.addEventListener('mouseleave',function(){gsap.to(c,{y:0,duration:.5})});
+});
+})();
 </script></body></html>
